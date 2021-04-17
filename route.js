@@ -43,17 +43,22 @@ router.post('/login',async(req,res)=>{
 });
 
 //public route
-router.get('/bills',(req,res)=>{
-    res.json({
-        title:"c++",
-        price:45
-    },{
-        title:"c",
-        price:40
-    },{
-        title:"python",
-        price:44
-    })
+router.get('/user',(req,res)=>{
+    // res.json({
+    //     title:"c++",
+    //     price:45
+    // },{
+    //     title:"c",
+    //     price:40
+    // },{
+    //     title:"python",
+    //     price:44
+    // })
+    const user=await User.find();
+    setTimeout(()=>{
+
+        res.send(user);
+    },5000)
 });
 //private route use function from verifytoken
 router.get('/cars',auth,async (req,res)=>{
