@@ -43,7 +43,7 @@ router.post('/login',async(req,res)=>{
 });
 
 //public route
-router.get('/user',(req,res)=>{
+router.get('/user',async (req,res)=>{
     // res.json({
     //     title:"c++",
     //     price:45
