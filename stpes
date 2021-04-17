@@ -1,0 +1,11 @@
+api->registration -->hash password
+
+bcryptjs
+    ->salt
+    ->hash
+
+2.api-login-->authentication user ->hashpassword
+3.authenticated user ->generate jwt
+4.users try to access api ->jwt verified
+
+
