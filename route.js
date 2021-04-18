@@ -72,7 +72,6 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const cors= require('cors'); 
 const User = require('./Model/user');
 const Car = require('./Model/car')
@@ -122,6 +121,7 @@ router.get('/cars', auth, async (req, res) => {
 
         res.send(user);
     }, 5000)
+    console.log(user)
     // res.json({
     //     price:10000,
     //     discount:"10%"
