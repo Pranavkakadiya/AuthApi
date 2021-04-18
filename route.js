@@ -72,12 +72,12 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors= require('cors'); 
+const cors = require('cors');
 const User = require('./Model/user');
 const Car = require('./Model/car')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
-const auth = require('./verifyToken');                                                                                                                                                                                                                                                                                                                                  
+const auth = require('./verifyToken');
 const router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(express.json());
@@ -93,7 +93,7 @@ router.post("/register", async (req, res, next) => {
         password: hasedPass
     });
     await user.save();
-    res.send({"text":"Registerd Successfully"});
+    res.send({ "text": "Registerd Successfully" });
 });
 
 // For login User
@@ -108,15 +108,15 @@ router.post("/login", async (req, res, next) => {
         else {
             const token = await jwt.sign({ _id: user._id }, "privatekey");
             // res.header("Authorization", token);
-            res.send({token});
+            res.send({ token });
         }
     }
 });
 
 
-router.get('/cars', auth, async (req, res) => {
+router.get('/users', auth, async (req, res) => {
 
-    const user = await Car.find();
+    const user = await User.find();
     setTimeout(() => {
 
         res.send(user);
@@ -127,6 +127,113 @@ router.get('/cars', auth, async (req, res) => {
     //     discount:"10%"
     // })
 });
+
+
+
+router.get("/cars", auth, async (req, res) => {
+
+    const posts = await Car.find()
+
+    setTimeout(() => {
+
+        res.send(posts)
+
+    }, 5000)
+
+})
+
+router.get("/cars/:id", auth, async (req, res) => {
+    try {
+        console.log(req.params.id)
+
+        const data = await Car.findOne({ _id: req.params.id })
+
+        console.log(data)
+        res.send(posts)
+    }catch{
+        res.status(404)
+
+        res.send({ error: "Post doesn't exist!"+req.params.id })
+    }
+
+
+})
+
+
+router.post("/cars", auth, async (req, res) => {
+
+    const data = new Car({
+
+        title: req.body.title,
+        content: req.body.content,
+
+    })
+
+    await data.save()
+
+    res.send(data)
+
+})
+
+router.patch("/cars/:id", auth, async (req, res) => {
+
+    try {
+        console.log(req.params.id)
+
+        const data = await Car.findOne({ _id: req.params.id })
+
+        console.log(data)
+
+
+        if (req.body.title) {
+
+            data.title = req.body.title
+
+        }
+
+
+        if (req.body.content) {
+
+            data.content = req.body.content
+
+        }
+        await data.save()
+
+        res.send(data)
+
+    } catch {
+
+        res.status(404)
+
+        res.send({ error: "Post doesn't exist!" })
+
+    }
+
+})
+
+router.delete("/cars/:id", auth, async (req, res) => {
+
+    try {
+
+        console.log(req.params.id)
+
+
+
+        const data = await Car.deleteOne({ _id: req.params.id })
+        console.log(data)
+
+        res.status(200).send(data)
+
+    } catch {
+
+        res.status(404)
+
+        res.send({ error: "Post doesn't exist!" })
+
+    }
+
+})
+
 
 
 

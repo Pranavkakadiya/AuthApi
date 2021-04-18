@@ -9,7 +9,7 @@
 
 
 const mongoose = require('mongoose');
-const usersSchema = mongoose.Schema({
+const usersSchema =new mongoose.Schema({
     uname: { 
         type: String,
         required: [true, 'Video username field is required']
