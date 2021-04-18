@@ -78,10 +78,10 @@ const Car = require('./Model/car')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
 const auth = require('./verifyToken');
-const router = express.Router();
-router.use(bodyParser.urlencoded({ extended: true }));
-router.use(express.json());
-router.use(cors());
+// const router = express.Router();
+// router.use(bodyParser.urlencoded({ extended: true }));
+// router.use(express.json());
+// router.use(cors());
 
 
 // For register
@@ -130,110 +130,65 @@ router.get('/users', auth, async (req, res) => {
 
 
 
-router.get("/cars", auth, async (req, res) => {
+router.get("/cars", auth,async (req, res) => {
 
     const posts = await Car.find()
-
     setTimeout(() => {
-
         res.send(posts)
-
     }, 5000)
-
-})
-
-router.get("/cars/:id", auth, async (req, res) => {
-    try {
-        console.log(req.params.id)
-
-        const data = await Car.findOne({ _id: req.params.id })
-
-        console.log(data)
-        res.send(posts)
-    }catch{
-        res.status(404)
-
-        res.send({ error: "Post doesn't exist!"+req.params.id })
-    }
-
-
 })
 
 
-router.post("/cars", auth, async (req, res) => {
+router.get("/cars/:id", auth,async (req, res) => {
+    // console.log(req.params.id)
+    const data = await Car.findOne({ _id: req.params.id })
+    setTimeout(() => {
+        res.send(data)
+    }, 5000)
+})
+
+router.post("/cars",auth, async (req, res) => {
 
     const data = new Car({
-
         title: req.body.title,
         content: req.body.content,
-
     })
-
     await data.save()
-
     res.send(data)
-
 })
 
-router.patch("/cars/:id", auth, async (req, res) => {
-
+router.patch("/cars/:id",auth, async (req, res) => {
     try {
-        console.log(req.params.id)
-
+        // console.log(req.params.id)
         const data = await Car.findOne({ _id: req.params.id })
 
-        console.log(data)
-
-
         if (req.body.title) {
-
             data.title = req.body.title
-
         }
-
 
         if (req.body.content) {
-
             data.content = req.body.content
-
         }
+
         await data.save()
-
         res.send(data)
-
     } catch {
-
         res.status(404)
-
         res.send({ error: "Post doesn't exist!" })
-
     }
-
 })
 
-router.delete("/cars/:id", auth, async (req, res) => {
-
+router.delete("/cars/:id", auth,async (req, res) => {
     try {
-
-        console.log(req.params.id)
-
-
-
         const data = await Car.deleteOne({ _id: req.params.id })
-        console.log(data)
-
-        res.status(200).send(data)
+        res.status(200)
+        res.send({ "text": "deleted Successfully"+req.params.id });
 
     } catch {
-
         res.status(404)
-
-        res.send({ error: "Post doesn't exist!" })
-
+        res.send({ error: "Post doesn't exist!" + req.params.id })
     }
-
 })
-
 
 
 
