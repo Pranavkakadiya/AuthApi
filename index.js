@@ -33,7 +33,7 @@ const route = require("./route");
 const cors = require('cors');
 const { json } = require('body-parser');
 
-var port = process.env.PORT || 5000;
+var port = process.env.PORT || 3010;
 mongoose.connect("mongodb+srv://pranav:12345@cluster0.mnb30.mongodb.net/UserApi?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true }).then(
 // mongoose.connect("mongodb://localhost:27017/UserApi", { useNewUrlParser: true, useUnifiedTopology: true }).then(
     () => {

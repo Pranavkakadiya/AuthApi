@@ -4,8 +4,8 @@ const mongoose=require('mongoose');
 
 const schema = mongoose.Schema({
 
-    title: {type:String},
-    content: {type:String},
+    title: String,
+    content: String,
 
 },{timestamps:true})
 
